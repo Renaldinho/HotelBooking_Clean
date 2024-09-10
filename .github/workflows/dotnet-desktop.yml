@@ -1,0 +1,32 @@
+trigger:
+- main  # Adjust this as necessary to the branch you want to build
+
+pool:
+  vmImage: 'windows-latest'  # Specifies the VM image
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'  # Specify your .NET version here
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- script: dotnet restore
+  displayName: 'Restore dependencies'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'Build project'
+
+- script: dotnet test --configuration $(buildConfiguration) --logger "trx;LogFileName=test_results.xml"
+  displayName: 'Run xUnit tests'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()  # This will ensure to publish test results even if the test step fails
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/test_results.xml'
+    failTaskOnFailedTests: true
+    testRunTitle: 'xUnit Test Results'
