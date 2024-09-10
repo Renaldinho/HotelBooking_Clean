@@ -1,32 +1,29 @@
-trigger:
-- main  # Adjust this as necessary to the branch you want to build
+name: .NET Build and Test
 
-pool:
-  vmImage: 'windows-latest'  # Specifies the VM image
+on:
+  push:
+    branches: [ main ]  # Trigger on pushes to the main branch
+  pull_request:
+    branches: [ main ]  # Trigger on pull requests to the main branch
 
-variables:
-  buildConfiguration: 'Release'
+jobs:
+  build-and-test:
+    runs-on: windows-latest  # Run this job on a Windows runner
 
-steps:
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '6.0.x'  # Specify your .NET version here
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout code
 
-- script: dotnet restore
-  displayName: 'Restore dependencies'
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'  # Specify the .NET version
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build project'
+    - name: Restore dependencies
+      run: dotnet restore
 
-- script: dotnet test --configuration $(buildConfiguration) --logger "trx;LogFileName=test_results.xml"
-  displayName: 'Run xUnit tests'
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()  # This will ensure to publish test results even if the test step fails
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/test_results.xml'
-    failTaskOnFailedTests: true
-    testRunTitle: 'xUnit Test Results'
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal
