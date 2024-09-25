@@ -31,10 +31,10 @@ jobs:
       - name: Start .NET application (background)
         run: dotnet run &
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Verify API is listening
+        run: |
+          netstat -an | grep 5000
+          curl http://localhost:5000
 
       - name: Install Newman
         run: npm install -g newman
