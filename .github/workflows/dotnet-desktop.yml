@@ -29,7 +29,7 @@ jobs:
         run: dotnet test
 
       - name: Start .NET application (background)
-        run: dotnet run &
+        run: dotnet run --urls="http://localhost:5000"  &
 
       - name: Verify API is listening
         run: |
