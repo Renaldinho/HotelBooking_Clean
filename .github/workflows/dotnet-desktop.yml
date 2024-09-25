@@ -2,37 +2,44 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ main ]  # Trigger on pushes to the main branch
+    branches: [ main ]
   pull_request:
-    branches: [ main ]  # Trigger on pull requests to the main branch
+    branches: [ main ]
 
 jobs:
   build-and-test:
-    runs-on: windows-latest  # Run this job on a Windows runner
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      name: Checkout code
+      - uses: actions/checkout@v2
+        name: Checkout code
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '8.0.x'  # Specify the .NET version
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
 
-    - name: Run tests
-      run: dotnet test
-      
-    - name: Install Newman
-      run: npm install -g newman
+      - name: Run tests
+        run: dotnet test
 
-    - name: Start .NET application
-      run: dotnet run &
+      - name: Build Docker image
+        run: docker build -t my-dotnet-app .
 
-    - name: Run Newman tests
-      run: newman run Postman/booking_tests
+      - name: Run .NET application in Docker container
+        run: docker run -d -p 5000:80 --name my-app-container my-dotnet-app
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Newman tests
+        run: newman run Postman/booking_tests
+
+      - name: Stop and remove Docker container
+        if: always()
+        run: docker stop my-app-container && docker rm my-app-container
