@@ -166,10 +166,47 @@
 							"\r",
 							"pm.test(\"Id matches expected value\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.id).to.eql(1);\r",
+							"    pm.expect(jsonData.id).to.eql(999);\r",
 							"});\r",
-							"\r",
 							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: 'http://localhost:5000/Bookings',\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'accept': '*/*',\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: `{\r",
+							"  \"id\": 999,\r",
+							"  \"startDate\": \"2024-09-25T15:49:26.470Z\",\r",
+							"  \"endDate\": \"2024-09-25T15:49:26.470Z\",\r",
+							"  \"isActive\": true,\r",
+							"  \"customerId\": 0,\r",
+							"  \"roomId\": 0,\r",
+							"  \"customer\": {\r",
+							"    \"id\": 0,\r",
+							"    \"name\": \"string\",\r",
+							"    \"email\": \"string\"\r",
+							"  },\r",
+							"  \"room\": {\r",
+							"    \"id\": 0,\r",
+							"    \"description\": \"string\"\r",
+							"  }\r",
+							"}` \r",
+							"    }\r",
+							"}, function (err, res) {\r",
+							"});"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -185,7 +222,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5000/Bookings/1",
+					"raw": "http://localhost:5000/Bookings/999",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -193,7 +230,7 @@
 					"port": "5000",
 					"path": [
 						"Bookings",
-						"1"
+						"999"
 					]
 				}
 			},
@@ -270,7 +307,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"id\": 1,\n  \"startDate\": \"2024-09-25T16:02:03.409Z\",\n  \"endDate\": \"2024-09-25T16:02:03.409Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
+					"raw": "{\n  \"id\": 9,\n  \"startDate\": \"2024-09-25T16:02:03.409Z\",\n  \"endDate\": \"2024-09-25T16:02:03.409Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -278,7 +315,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/Bookings/1",
+					"raw": "http://localhost:5000/Bookings/9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -286,21 +323,21 @@
 					"port": "5000",
 					"path": [
 						"Bookings",
-						"1"
+						"9"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Booking not found Copy",
+			"name": "Inconsistent data",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Mismatched id in route and body causes fail\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
+							"    pm.response.to.have.status(400);\r",
 							"});"
 						],
 						"type": "text/javascript",

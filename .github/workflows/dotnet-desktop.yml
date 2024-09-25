@@ -27,3 +27,12 @@ jobs:
 
     - name: Run tests
       run: dotnet test
+      
+    - name: Install Newman
+      run: npm install -g newman
+
+    - name: Start .NET application
+      run: dotnet run &
+
+    - name: Run Newman tests
+      run: newman run Postman/booking_tests
