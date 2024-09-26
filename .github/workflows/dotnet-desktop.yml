@@ -20,10 +20,10 @@ jobs:
           dotnet-version: '8.0.x' # Or your desired .NET version
 
       - name: Build
-        run: dotnet build HotelBooking.WebApi/HotelBooking.WebApi.csproj --configuration /Release
+        run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj --configuration Release -o ./publish
 
       - name: Start .NET application (background)
-        run: dotnet Release/HotelBooking.WebApi.dll &
+        run: dotnet publish/HotelBooking.WebApi.dll &
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
