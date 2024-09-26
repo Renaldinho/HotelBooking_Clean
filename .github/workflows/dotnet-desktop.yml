@@ -29,7 +29,7 @@ jobs:
         run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./publish
 
       - name: Execute
-        run: dotnet ./publish/HotelBooking.WebApi.dll & 
+        run: dotnet ./publish/HotelBooking.WebApi.dll --urls "http://localhost:5000" & 
 
 #
 #      - name: Run .NET tests
