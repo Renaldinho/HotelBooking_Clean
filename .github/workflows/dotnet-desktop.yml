@@ -34,4 +34,4 @@ jobs:
         run: npm install -g newman
 
       - name: Run Newman tests
-        run: newman run $(Build.SourcesDirectory)/Postman/HotelBooking.postman_collection.json -k -r cli
+        run: newman run Postman/booking_tests -k -r cli
