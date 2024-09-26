@@ -32,7 +32,7 @@ jobs:
         run: dotnet test
 
       - name: Start .NET application (background)
-        run: dotnet run --urls="http://localhost:5000"  &
+        run: dotnet run &
 
       - name: Check port with netstat
         run: netstat -an | findstr "LISTENING"
