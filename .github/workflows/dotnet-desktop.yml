@@ -14,11 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '8.0.x' # Or your desired .NET version
-
       - name: Build
         run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj --configuration Release -o ./publish
 
