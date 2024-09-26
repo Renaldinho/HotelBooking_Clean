@@ -35,8 +35,7 @@ namespace HotelBooking.Core
 
         public int FindAvailableRoom(DateTime startDate, DateTime endDate)
         {
-            DateTime today = new DateTime(2023, 9, 25); // Example fixed date
-            if (startDate <= today || startDate > endDate)
+            if (startDate <= DateTime.Today || startDate > endDate)
                 throw new ArgumentException("The start date cannot be in the past or later than the end date.");
 
             var activeBookings = bookingRepository.GetAll().Where(b => b.IsActive);
