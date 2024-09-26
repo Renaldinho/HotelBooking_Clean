@@ -1,48 +1,41 @@
-name: .NET Build and Test
-
-env:
-  ASPNETCORE_URLS: 'https://+:5001;http://+:5000'
+name: .NET Core CI/CD
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-and-test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    env:
+      ASPNETCORE_URLS: 'https://+:5001;http://+:5000'
 
     steps:
       - uses: actions/checkout@v2
-        name: Checkout code
-      
+
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.0.x'
-
-      - name: Restore dependencies
-        run: dotnet restore
+          dotnet-version: '8.0.x' # Or your desired .NET version
 
       - name: Build
-        run: dotnet build HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./build
+        run: dotnet build **/*.csproj --configuration Release
 
+      - name: Test
+        run: dotnet test **/*Tests/*.csproj --configuration Release
 
-      - name: Execute
-        run: dotnet ./build/HotelBooking.WebApi.dll & 
+      - name: Start .NET application (background)
+        run: |
+          nohup dotnet $(Build.SourcesDirectory)/HotelBooking.WebApi/bin/Release/HotelBooking.WebApi.dll &  # Adjust the path if needed
 
-#
-#      - name: Run .NET tests
-#        run: dotnet test
-
-      
-
-      - name: Check port with netstat
-        run: netstat -an | findstr "LISTENING"
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
       - name: Install Newman
         run: npm install -g newman
 
       - name: Run Newman tests
-        run: newman run Postman/booking_tests -k -r cli
+        run: newman run $(Build.SourcesDirectory)/Postman/HotelBooking.postman_collection.json -k -r cli
