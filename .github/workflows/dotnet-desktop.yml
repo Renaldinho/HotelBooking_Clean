@@ -23,8 +23,7 @@ jobs:
         run: dotnet build HotelBooking.WebApi/HotelBooking.WebApi.csproj --configuration Release
 
       - name: Start .NET application (background)
-        run: |
-          nohup dotnet $(Build.SourcesDirectory)/HotelBooking.WebApi/bin/Release/HotelBooking.WebApi.dll &  # Adjust the path if needed
+        run: nohup dotnet Release/HotelBooking.WebApi.dll &
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
