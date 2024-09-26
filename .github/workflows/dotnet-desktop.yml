@@ -36,6 +36,13 @@ jobs:
         env:
           ASPNETCORE_ENVIRONMENT: Development
           ASPNETCORE_URLS: http://localhost:5000
+          
+      - name: Check app health
+        run: |
+          until $(curl --output /dev/null --silent --head --fail http://localhost:5000); do
+            echo "Waiting for app to launch..."
+            sleep 5
+          done
 
       - name: Check port with netstat
         run: netstat -an | findstr "LISTENING"
