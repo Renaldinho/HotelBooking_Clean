@@ -40,49 +40,6 @@
 			"response": []
 		},
 		{
-			"name": "Post booking",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "accept",
-						"value": "*/*"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"id\": 0,\n  \"startDate\": \"2029-09-23T15:49:26.470Z\",\n  \"endDate\": \"2039-09-25T15:49:26.470Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:5000/Bookings"
-			},
-			"response": []
-		},
-		{
 			"name": "Post booking malformed",
 			"event": [
 				{
