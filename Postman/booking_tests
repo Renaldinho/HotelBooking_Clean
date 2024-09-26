@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "dad6f442-9884-4b72-84f9-dd262a69d8ab",
 		"name": "Hotel booking API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "23017717"
 	},
 	"item": [
@@ -35,17 +35,7 @@
 						"value": "text/plain"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:5000/Bookings",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings"
-					]
-				}
+				"url": "http://localhost:5000/Bookings"
 			},
 			"response": []
 		},
@@ -88,17 +78,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:5000/Bookings",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings"
-					]
-				}
+				"url": "http://localhost:5000/Bookings"
 			},
 			"response": []
 		},
@@ -139,17 +119,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:5000/Bookings",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings"
-					]
-				}
+				"url": "http://localhost:5000/Bookings"
 			},
 			"response": []
 		},
@@ -221,18 +191,7 @@
 						"value": "*/*"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:5000/Bookings/999",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings",
-						"999"
-					]
-				}
+				"url": "http://localhost:5000/Bookings/999"
 			},
 			"response": []
 		},
@@ -262,18 +221,7 @@
 						"value": "*/*"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:5000/Bookings/b",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings",
-						"b"
-					]
-				}
+				"url": "http://localhost:5000/Bookings/b"
 			},
 			"response": []
 		},
@@ -314,18 +262,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:5000/Bookings/9",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings",
-						"9"
-					]
-				}
+				"url": "http://localhost:5000/Bookings/9"
 			},
 			"response": []
 		},
@@ -366,18 +303,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:5000/Bookings/99999999",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings",
-						"99999999"
-					]
-				}
+				"url": "http://localhost:5000/Bookings/99999999"
 			},
 			"response": []
 		},
@@ -405,18 +331,7 @@
 						"value": "*/*"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:5000/Bookings/42069",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings",
-						"42069"
-					]
-				}
+				"url": "http://localhost:5000/Bookings/42069"
 			},
 			"response": []
 		},
@@ -482,18 +397,7 @@
 						"value": "*/*"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:5000/Bookings/69",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"Bookings",
-						"69"
-					]
-				}
+				"url": "http://localhost:5000/Bookings/69"
 			},
 			"response": []
 		}
