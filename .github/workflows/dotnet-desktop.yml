@@ -22,7 +22,7 @@ jobs:
         run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./publish
 
       - name: Execute
-        run: dotnet ./publish/HotelBooking.WebApi.dll 
+        run: dotnet ./publish/HotelBooking.WebApi.dll & 
 
 #      - name: Setup .NET Core
 #        uses: actions/setup-dotnet@v1
@@ -47,4 +47,4 @@ jobs:
         run: npm install -g newman
 
       - name: Run Newman tests
-        run: newman run Postman/booking_tests -k
+        run: newman run Postman/booking_tests -k -r cli
