@@ -31,8 +31,11 @@ jobs:
       - name: Run .NET tests
         run: dotnet test
 
-      - name: Start .NET application (background)
-        run: dotnet run &
+      - name: Run
+        run: dotnet run --no-build --urls "http://localhost:5000" &
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_URLS: http://localhost:5000
 
       - name: Check port with netstat
         run: netstat -an | findstr "LISTENING"
