@@ -30,7 +30,7 @@ jobs:
 
 
       - name: Execute
-        run: dotnet ./build/HotelBooking.WebApi.dll --urls "http://localhost:5000" & 
+        run: dotnet ./build/HotelBooking.WebApi.dll & 
 
 #
 #      - name: Run .NET tests
