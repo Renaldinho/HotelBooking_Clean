@@ -25,11 +25,12 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Publish
-        run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./publish
+      - name: Build
+        run: dotnet build HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./build
+
 
       - name: Execute
-        run: dotnet ./publish/HotelBooking.WebApi.dll --urls "http://localhost:5000" & 
+        run: dotnet ./build/HotelBooking.WebApi.dll --urls "http://localhost:5000" & 
 
 #
 #      - name: Run .NET tests
