@@ -1,5 +1,8 @@
 name: .NET Build and Test
 
+env:
+  ASPNETCORE_URLS: 'https://+:5001;http://+:5000'
+
 on:
   push:
     branches: [ main ]
@@ -29,7 +32,7 @@ jobs:
         run: dotnet test
 
       - name: Start .NET application (background)
-        run: dotnet --urls="https://+:5000;http://+:5000"  &
+        run: dotnet run --urls="http://localhost:5000"  &
 
       - name: Check port with netstat
         run: netstat -an | findstr "LISTENING"
