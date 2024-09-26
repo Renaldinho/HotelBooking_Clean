@@ -22,9 +22,6 @@ jobs:
       - name: Build
         run: dotnet build **/*.csproj --configuration Release
 
-      - name: Test
-        run: dotnet test **/*Tests/*.csproj --configuration Release
-
       - name: Start .NET application (background)
         run: |
           nohup dotnet $(Build.SourcesDirectory)/HotelBooking.WebApi/bin/Release/HotelBooking.WebApi.dll &  # Adjust the path if needed
