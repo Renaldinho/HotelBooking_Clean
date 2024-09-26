@@ -22,7 +22,7 @@ jobs:
         run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./publish
 
       - name: Execute
-        run: dotnet ./publish/HotelBooking.WebApi.dll &
+        run: dotnet ./publish/HotelBooking.WebApi.dll 
 
 #      - name: Setup .NET Core
 #        uses: actions/setup-dotnet@v1
