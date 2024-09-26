@@ -81,7 +81,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"id\": 0,\n  \"startDate\": \"2024-09-25T15:49:26.470Z\",\n  \"endDate\": \"2024-09-25T15:49:26.470Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
+					"raw": "{\n  \"id\": 0,\n  \"startDate\": \"2029-09-23T15:49:26.470Z\",\n  \"endDate\": \"2039-09-25T15:49:26.470Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -189,8 +189,8 @@
 							"        mode: 'raw',\r",
 							"        raw: `{\r",
 							"  \"id\": 999,\r",
-							"  \"startDate\": \"2024-09-25T15:49:26.470Z\",\r",
-							"  \"endDate\": \"2024-09-25T15:49:26.470Z\",\r",
+							"  \"startDate\": \"2029-09-25T15:49:26.470Z\",\r",
+							"  \"endDate\": \"2039-09-25T15:49:26.470Z\",\r",
 							"  \"isActive\": true,\r",
 							"  \"customerId\": 0,\r",
 							"  \"roomId\": 0,\r",
@@ -383,6 +383,20 @@
 		},
 		{
 			"name": "Not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 and is not found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -424,8 +438,8 @@
 							"        mode: 'raw',\r",
 							"        raw: `{\r",
 							"  \"id\": 69,\r",
-							"  \"startDate\": \"2024-09-25T15:49:26.470Z\",\r",
-							"  \"endDate\": \"2024-09-25T15:49:26.470Z\",\r",
+							"  \"startDate\": \"2029-09-25T15:49:26.470Z\",\r",
+							"  \"endDate\": \"2039-09-25T15:49:26.470Z\",\r",
 							"  \"isActive\": true,\r",
 							"  \"customerId\": 0,\r",
 							"  \"roomId\": 0,\r",
