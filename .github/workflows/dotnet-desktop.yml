@@ -16,7 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Checkout code
+      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
 
+      - name: Restore dependencies
+        run: dotnet restore
 
       - name: Publish
         run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./publish
@@ -24,16 +31,6 @@ jobs:
       - name: Execute
         run: dotnet ./publish/HotelBooking.WebApi.dll & 
 
-#      - name: Setup .NET Core
-#        uses: actions/setup-dotnet@v1
-#        with:
-#          dotnet-version: '8.0.x'
-#
-#      - name: Restore dependencies
-#        run: dotnet restore
-#
-#      - name: Build
-#        run: dotnet build --configuration Release --no-restore
 #
 #      - name: Run .NET tests
 #        run: dotnet test
