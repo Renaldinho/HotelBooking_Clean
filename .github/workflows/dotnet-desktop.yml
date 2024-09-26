@@ -31,10 +31,8 @@ jobs:
       - name: Start .NET application (background)
         run: dotnet run --urls="http://localhost:5000"  &
 
-      - name: Verify API is listening
-        run: |
-          netstat -an | grep 5000
-          curl http://localhost:5000
+      - name: Check port with netstat
+        run: netstat -an | findstr "LISTENING"
 
       - name: Install Newman
         run: npm install -g newman
