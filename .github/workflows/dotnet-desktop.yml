@@ -1,8 +1,5 @@
 name: .NET Build and Test
 
-env:
-  ASPNETCORE_URLS: 'https://+:5001;http://+:5000'
-
 on:
   push:
     branches: [ main ]
@@ -11,12 +8,12 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest  # Switch to Ubuntu runner
 
     steps:
       - uses: actions/checkout@v2
         name: Checkout code
-      
+
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -25,23 +22,27 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Publish
-        run: dotnet publish HotelBooking.WebApi/HotelBooking.WebApi.csproj -c Release -o ./publish
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
 
-      - name: Execute
-        run: dotnet ./publish/HotelBooking.WebApi.dll & 
+      - name: Run .NET tests
+        run: dotnet test
 
-#
-#      - name: Run .NET tests
-#        run: dotnet test
+      - name: Publish .NET application
+        run: dotnet publish -c Release -o published
 
-      
+      - name: Start .NET application (production mode)
+        run: |
+          cd published 
+          nohup dotnet YourProjectName.dll &  # Use nohup to run in the background and ignore hangup signals
 
-      - name: Check port with netstat
-        run: netstat -an | findstr "LISTENING"
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
       - name: Install Newman
         run: npm install -g newman
 
       - name: Run Newman tests
-        run: newman run Postman/booking_tests -k -r cli
+        run: newman run Postman/booking_tests.json -k -r cli
