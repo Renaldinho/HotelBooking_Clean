@@ -154,6 +154,46 @@
 			"response": []
 		},
 		{
+			"name": "Post booking invalid date period",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 0,\n  \"startDate\": \"2039-09-23T15:49:26.470Z\",\n  \"endDate\": \"2039-08-25T15:49:26.470Z\",\n  \"isActive\": false,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/Bookings"
+			},
+			"response": []
+		},
+		{
 			"name": "Get booking by id",
 			"event": [
 				{
@@ -249,7 +289,7 @@
 			"response": []
 		},
 		{
-			"name": "Get booking by id Copy malformed",
+			"name": "Get booking by id malformed",
 			"event": [
 				{
 					"listen": "test",
@@ -321,6 +361,47 @@
 		},
 		{
 			"name": "Inconsistent data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Mismatched id in route and body causes fail\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 1,\n  \"startDate\": \"2024-09-25T16:02:03.409Z\",\n  \"endDate\": \"2024-09-25T16:02:03.409Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/Bookings/99999999"
+			},
+			"response": []
+		},
+		{
+			"name": "Create and Edit booking",
 			"event": [
 				{
 					"listen": "test",
