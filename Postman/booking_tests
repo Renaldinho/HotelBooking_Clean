@@ -171,6 +171,7 @@
 			],
 			"request": {
 				"method": "POST",
+				"header": [
 					{
 						"key": "accept",
 						"value": "*/*"
@@ -407,8 +408,69 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Mismatched id in route and body causes fail\", function () {\r",
-							"    pm.response.to.have.status(400);\r",
+							"pm.test(\"Edit successful\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"  url: 'http://localhost:5000/Rooms',\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'accept': '*/*',\r",
+							"    'Content-Type': 'application/json'\r",
+							"  },\r",
+							"  body: {\r",
+							"    mode: 'raw',\r",
+							"    raw: JSON.stringify({ \r",
+							"      id: 0, \r",
+							"      description: \"string\" \r",
+							"    })\r",
+							"  }\r",
+							"}, function (err, res) {\r",
+							"  if (err) {\r",
+							"    console.error(err);\r",
+							"  } else {\r",
+							"    console.log(res); // Log the response\r",
+							"  }\r",
+							"});\r",
+							"\r",
+							"pm.sendRequest({\r",
+							"    url: 'http://localhost:5000/Bookings',\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'accept': '*/*',\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: `{\r",
+							"  \"id\": 42069,\r",
+							"  \"startDate\": \"2029-09-25T15:49:26.470Z\",\r",
+							"  \"endDate\": \"2039-09-25T15:49:26.470Z\",\r",
+							"  \"isActive\": true,\r",
+							"  \"customerId\": 0,\r",
+							"  \"roomId\": 0,\r",
+							"  \"customer\": {\r",
+							"    \"id\": 0,\r",
+							"    \"name\": \"string\",\r",
+							"    \"email\": \"string\"\r",
+							"  },\r",
+							"  \"room\": {\r",
+							"    \"id\": 0,\r",
+							"    \"description\": \"string\"\r",
+							"  }\r",
+							"}` \r",
+							"    }\r",
+							"}, function (err, res) {\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -430,14 +492,14 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"id\": 1,\n  \"startDate\": \"2024-09-25T16:02:03.409Z\",\n  \"endDate\": \"2024-09-25T16:02:03.409Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
+					"raw": "{\n  \"id\": 42069,\n  \"startDate\": \"2024-09-25T16:02:03.409Z\",\n  \"endDate\": \"2024-09-25T16:02:03.409Z\",\n  \"isActive\": true,\n  \"customerId\": 0,\n  \"roomId\": 0,\n  \"customer\": {\n    \"id\": 0,\n    \"name\": \"string\",\n    \"email\": \"string\"\n  },\n  \"room\": {\n    \"id\": 0,\n    \"description\": \"string\"\n  }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:5000/Bookings/99999999"
+				"url": "http://localhost:5000/Bookings/42069"
 			},
 			"response": []
 		},
