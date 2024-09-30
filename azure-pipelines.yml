@@ -5,7 +5,7 @@ pool:
   vmImage: 'windows-latest'  # Specifies the VM image
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Release' #used to control the build from release to debug 
 
 steps:
 - task: UseDotNet@2

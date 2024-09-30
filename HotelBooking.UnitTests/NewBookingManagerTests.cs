@@ -23,13 +23,16 @@ public class NewBookingManagerTests
         _output = output; 
     }
     
-    
+    //Provides test data for the FindAvailableRoom_ShouldReturnCorrectRoom
     public static IEnumerable<object[]> GetRoomAvailabilityData()
     {
         yield return new object[] { DateTime.Today.AddDays(1), DateTime.Today.AddDays(2),2 }; 
         yield return new object[] { DateTime.Today.AddDays(3), DateTime.Today.AddDays(5), 2 };
+        yield return new object[] { DateTime.Today.AddDays(3), DateTime.Today.AddDays(5), 2 };
     }
     
+    //Purpose: Tests that the FindAvailableRoom method correctly returns the expected available room when given a date range.
+    //Uses MemberData to apply different test cases.
     [Theory]
     [MemberData(nameof(GetRoomAvailabilityData))]
     public void FindAvailableRoom_ShouldReturnCorrectRoom(DateTime startDate, DateTime endDate, int expectedRoomId)
@@ -61,6 +64,62 @@ public class NewBookingManagerTests
         Assert.Equal(expectedRoomId, result);
     }
     
+   
+    
+    [Fact]
+    public void FindAvailableRoom_WhenNoRoomsAvailable_ShouldReturnMinusOne()
+    {
+        // Arrange
+        var bookings = new List<Booking>
+        {
+            new Booking { StartDate = DateTime.Today.AddDays(1), EndDate = DateTime.Today.AddDays(3), RoomId = 1, IsActive = true },
+            new Booking { StartDate = DateTime.Today.AddDays(1), EndDate = DateTime.Today.AddDays(3), RoomId = 2, IsActive = true }
+        };
+
+        var rooms = new List<Room>
+        {
+            new Room { Id = 1 },
+            new Room { Id = 2 }
+        };
+
+        _bookingRepositoryMock.Setup(repo => repo.GetAll()).Returns(bookings.AsQueryable());
+        _roomRepositoryMock.Setup(repo => repo.GetAll()).Returns(rooms.AsQueryable());
+
+        // Act
+        var result = _bookingManager.FindAvailableRoom(DateTime.Today.AddDays(1), DateTime.Today.AddDays(3));
+
+        // Assert
+        Assert.Equal(-1, result);
+    }
+    
+    
+    [Theory]
+    [MemberData(nameof(GetRoomAvailabilityData))]
+    public void FindAvailableRoom_WhenNoRoomIsAvailable_ShouldReturnMinusOne(DateTime startDate, DateTime endDate, int _)
+    {
+        // Arrange
+        var bookings = new List<Booking>
+        {
+            new Booking { StartDate = DateTime.Today.AddDays(1), EndDate = DateTime.Today.AddDays(3), RoomId = 1, IsActive = true },
+            new Booking { StartDate = DateTime.Today.AddDays(1), EndDate = DateTime.Today.AddDays(3), RoomId = 2, IsActive = true }
+        };
+
+        var rooms = new List<Room>
+        {
+            new Room { Id = 1 },
+            new Room { Id = 2 }
+        };
+
+        _bookingRepositoryMock.Setup(repo => repo.GetAll()).Returns(bookings.AsQueryable());
+        _roomRepositoryMock.Setup(repo => repo.GetAll()).Returns(rooms.AsQueryable());
+
+        // Act
+        var result = _bookingManager.FindAvailableRoom(startDate, endDate);
+
+        // Assert
+        Assert.Equal(-1, result);
+    }
+    
     [Fact]
     public void CreateBooking_WithAvailableRoom_ShouldReturnTrue()
     {
@@ -89,7 +148,7 @@ public class NewBookingManagerTests
             new Booking { StartDate = DateTime.Today.AddDays(1), EndDate = DateTime.Today.AddDays(3), RoomId = 2, IsActive = true }
         };
         var rooms = new List<Room> { new Room { Id = 1 }, new Room { Id = 2 } };
-
+        //The mocked bookingRepository is set up to return the predefined bookings list as a queryable data source.
         _bookingRepositoryMock.Setup(repo => repo.GetAll()).Returns(bookings.AsQueryable());
         _roomRepositoryMock.Setup(repo => repo.GetAll()).Returns(rooms.AsQueryable());
 
@@ -98,6 +157,36 @@ public class NewBookingManagerTests
 
         // Assert
         Assert.Equal(new List<DateTime> { DateTime.Today.AddDays(1), DateTime.Today.AddDays(2), DateTime.Today.AddDays(3) }, result);
+    }
+    
+    // edge tests 
+    [Fact]
+    public void FindAvailableRoom_WhenEndDateEarlierThanStartDate_ShouldThrowArgumentException()
+    {
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => _bookingManager.FindAvailableRoom(DateTime.Today.AddDays(2), DateTime.Today.AddDays(1)));
+    }
+    
+    [Fact]
+    public void FindAvailableRoom_WhenNoActiveBookings_ShouldReturnFirstAvailableRoom()
+    {
+        // Arrange
+        _bookingRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Booking>().AsQueryable());
+        _roomRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Room> { new Room { Id = 1 } }.AsQueryable());
+
+        // Act
+        var result = _bookingManager.FindAvailableRoom(DateTime.Today.AddDays(1), DateTime.Today.AddDays(2));
+
+        // Assert
+        Assert.Equal(1, result);
+    }
+    
+    
+    [Fact]
+    public void FindAvailableRoom_WhenStartDateInPast_ShouldThrowArgumentException()
+    {
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => _bookingManager.FindAvailableRoom(DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)));
     }
     
 }
