@@ -24,7 +24,7 @@ public class CreateBookingStepDefinitions
         bookingRepositoryMock = new Mock<IRepository<Booking>>();
         roomRepositoryMock = new Mock<IRepository<Room>>();
         bookingManager = new BookingManager(bookingRepositoryMock.Object, roomRepositoryMock.Object);
-        booking = new Booking(); // Initialize the booking object here
+        booking = new Booking();
     }
 
     [Given(@"the start date is (.*) days in the future from today")]
@@ -41,11 +41,18 @@ public class CreateBookingStepDefinitions
         booking.EndDate = endDate;
     }
 
-    [Given(@"there is a room available during period")] 
-    public void ThereIsAnAvailableRoomDuringPeriod()
+    [Given(@"there are (\d+) rooms available during period")]
+    public void GivenThereAreRoomsAvailableDuringPeriod(int availableRooms)
     {
-        // Mock room availability here (example)
-        roomRepositoryMock.Setup(r => r.GetAll()).Returns(new List<Room> { new Room { Id = 1 } });
+        // Create a list of rooms based on the availableRooms count
+        var rooms = new List<Room>();
+        for (int i = 1; i <= availableRooms; i++)
+        {
+            rooms.Add(new Room { Id = i });
+        }
+
+        // Mock the room repository to return the list of rooms
+        roomRepositoryMock.Setup(r => r.GetAll()).Returns(rooms);
     }
     
     [When(@"the customer creates a booking")]
@@ -55,9 +62,10 @@ public class CreateBookingStepDefinitions
     }
 
     [Then(@"the booking should be created successfully")]
-    public void ThenTheBookingShouldBeCreatedSuccessfully()
+    public void ThenTheBookingShouldBe()
     {
         Assert.True(bookingResult);
     }
 
 }
+
