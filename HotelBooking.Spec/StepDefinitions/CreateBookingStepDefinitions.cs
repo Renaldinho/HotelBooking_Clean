@@ -40,6 +40,18 @@ public class CreateBookingStepDefinitions
         var endDate = DateTime.Today.AddDays(days);
         booking.EndDate = endDate;
     }
+    
+    [Given(@"the start date is (\d+) days in the past from today")]
+    public void GivenTheStartDateIsDaysInThePast(int days)
+    {
+        booking.StartDate = DateTime.Today.AddDays(-days);
+    }
+    
+    [Given(@"the end date is (\d+) days in the past from today")]
+    public void GivenTheEndDateIsDaysInThePast(int days)
+    {
+        booking.EndDate = DateTime.Today.AddDays(-days);
+    }
 
     [Given(@"there are (\d+) rooms available during period")]
     public void GivenThereAreRoomsAvailableDuringPeriod(int availableRooms)
@@ -65,6 +77,12 @@ public class CreateBookingStepDefinitions
     public void ThenTheBookingShouldBe()
     {
         Assert.True(bookingResult);
+    }
+
+    [Then(@"the booking should be not created")]
+    public void ThenTheBookingShouldNotBeCreated()
+    {
+        Assert.False(bookingResult);
     }
 
 }
