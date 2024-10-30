@@ -52,4 +52,41 @@
         | 740                   | 701                 | 4              |
         | 750                   | 702                 | 4              |
         
+    Scenario Outline: Invalid date but rooms available (end date before start date)
+        Given the start date is <startDays> days in the future from today
+        And the end date is <endDays> days in the future from today
+        And there are <roomsAvailable> rooms available during period
+        When the customer creates a booking
+        Then the booking should create an exception
+
+        Examples:
+          | startDays | endDays | roomsAvailable |
+          | 2         | 1       | 1              |
+          | 10        | 5       | 3              |
+          | 730       | 729     | 4              |
+
+    Scenario Outline: Invalid date and no rooms available (start date in the past)
+        Given the start date is <startDays> days in the past from today
+        And the end date is <endDays> days in the future from today
+        And there are 0 rooms available during period
+        When the customer creates a booking
+        Then the booking should create an exception
+
+        Examples:
+          | startDays | endDays |
+          | 1         | 2       |
+          | 10        | 15      | 
+
+    Scenario Outline: Invalid date and no rooms available (end date before start date)
+        Given the start date is <startDays> days in the future from today
+        And the end date is <endDays> days in the future from today
+        And there are 0 rooms available during period
+        When the customer creates a booking
+        Then the booking should create an exception
+
+        Examples:
+          | startDays | endDays |
+          | 2         | 1       |
+          | 10        | 5       |
+        
         
