@@ -16,3 +16,40 @@
           | 729         | 730            | 10             | 
           | 730         | 731            | 1              | 
           | 1           | 2              | 3              | 
+          
+    
+
+    Scenario Outline: Valid date but no rooms available, boundary value testing
+        
+        Given the start date is <daysFromNow> days in the future from today
+        And the end date is <daysAfterStart> days in the future from today
+        And there are 0 rooms available during period
+        When the customer creates a booking
+        Then the booking should be not created
+        
+        Examples:
+          | daysFromNow | daysAfterStart |
+          | 1           | 2              |
+          | 2           | 3              |
+          | 21          | 28             |
+          | 729         | 730            |
+          | 730         | 731            |
+          | 1           | 2              |
+          
+
+    Scenario Outline: Invalid date but rooms available. (dates in the past)
+        Given the start date is <daysInThePastStarting> days in the past from today
+        And the end date is <daysInThePastEnding> days in the past from today
+        And there are <roomsAvailable> rooms available during period
+        When the customer creates a booking
+        Then the booking should create an exception
+        
+        Examples: 
+        | daysInThePastStarting | daysInThePastEnding | roomsAvailable |
+        | 0                     | 0                   | 10             |
+        | 1                     | 10                  | 3              |
+        | 14                    | 12                  | 4              |
+        | 740                   | 701                 | 4              |
+        | 750                   | 702                 | 4              |
+        
+        

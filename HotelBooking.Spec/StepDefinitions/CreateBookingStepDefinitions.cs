@@ -17,6 +17,7 @@ public class CreateBookingStepDefinitions
     private Mock<IRepository<Room>> roomRepositoryMock;
     private Booking booking;
     private bool bookingResult;
+    private Exception bookingException;
     
     [BeforeScenario]
     public void Setup()
@@ -70,7 +71,14 @@ public class CreateBookingStepDefinitions
     [When(@"the customer creates a booking")]
     public void WhenTheCustomerCreatesABooking()
     {
-        bookingResult = bookingManager.CreateBooking(booking);
+        try
+        {
+            bookingResult = bookingManager.CreateBooking(booking);
+        }
+        catch (Exception e)
+        {
+            bookingException = e;
+        }
     }
 
     [Then(@"the booking should be created successfully")]
@@ -85,5 +93,10 @@ public class CreateBookingStepDefinitions
         Assert.False(bookingResult);
     }
 
+    [Then(@"the booking should create an exception")]
+    public void ThenTheBookingShouldCreateAnException()
+    {
+        Assert.NotNull(bookingException);
+    }
 }
 
