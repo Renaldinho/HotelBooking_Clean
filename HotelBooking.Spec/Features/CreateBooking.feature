@@ -89,4 +89,17 @@
           | 2         | 1       |
           | 10        | 5       |
         
-        
+     #edge tests 
+    Scenario Outline: Single-Day Booking
+        Given the start date is <startDays> days in the future from today
+        And the end date is <endDays> days in the future from today
+        And there are <roomsAvailable> rooms available during period
+        When the customer creates a booking
+        Then the booking should be created successfully
+
+        Examples:
+          | startDays | endDays | roomsAvailable |
+          | 1         | 1       | 1              |
+          | 2         | 2       | 3              |
+          | 10        | 10      | 4              |
+    
